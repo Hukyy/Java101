@@ -1,0 +1,19 @@
+package zombies;
+
+public class Dungeon {
+	private char[][] map;
+	
+	public Dungeon(String[] map){
+		int len = map.length;
+		for (int i=0;i<len;i++){
+			this.map[i] = map[i].toCharArray();
+		}
+	}
+	
+	public void printMap(){
+		int len = map.length;
+		for (int i=0;i<len;i++){
+			System.out.println(this.map[i]);
+		}
+	}
+}

@@ -1,0 +1,27 @@
+package zombies;
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		int zombiesCount=input.nextInt();
+		int zombiesHealth=input.nextInt();
+		
+		int counter=0;
+		Axe weapon = new Axe(10,6);
+		
+		for (int i = 0; i<zombiesCount; i++) {
+			int oneZombie = zombiesHealth;
+			while(zombiesHealth>0){
+				zombiesHealth-= weapon.hit();
+				counter++;
+			}
+			zombiesHealth =oneZombie;
+		}
+		System.out.println(counter);
+
+	}
+
+}

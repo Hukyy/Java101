@@ -1,0 +1,21 @@
+package zombies;
+
+public class Hero {
+	String name;
+	String title,
+	int health;
+	int mana;
+	int manaRegen;
+	
+	public Hero(String Name,String Title, int Health, int Mana, int ManaRegen){
+		this.name=Name;
+		this.title=Title;
+		this.health=Health;
+		this.mana=Mana;
+		this.manaRegen=ManaRegen;
+	}
+	
+	public String knownAs(){
+		return name + " the " + title;
+	}
+}

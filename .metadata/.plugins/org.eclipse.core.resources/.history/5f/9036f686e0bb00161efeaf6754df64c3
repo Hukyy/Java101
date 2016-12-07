@@ -1,0 +1,8 @@
+package zombies;
+
+public class Hero {
+	String name;
+	int health;
+	int mana;
+	int manaRegen;
+}

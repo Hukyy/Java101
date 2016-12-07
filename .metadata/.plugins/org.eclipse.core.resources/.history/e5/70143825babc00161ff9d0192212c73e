@@ -1,0 +1,38 @@
+package zombies;
+
+public class Fight {
+	private Hero hero;
+	private Zombie zombie;
+	private Position heroPosition;
+	private Position zombiePosition;
+	
+	public Fight(Hero h, Zombie z){
+		hero=h;
+		zombie=z;
+	}
+	
+	public void getPositions(Position hero, Position zombie){
+		heroPosition= hero;
+		zombiePosition = zombie;
+	}
+	
+	public void le_fight(){
+		int zombieX = heroPosition.getX() - zombiePosition.getX();
+		int zombieY = heroPosition.getY() - zombiePosition.getY();
+		while (zombieX != 0 && zombieY != 0 && zombie.isAlive()){
+			System.out.println("Our hero (" + hero.getHealth() + " health, " + hero.getMana() + " mana) is attacking the enemy ("  + zombie.getHealth() + " health, "  + zombie.getMana() + " mana).");
+			int hero_damage = hero.attack("magic");
+			if (hero_damage == 0){
+				System.out.println("hero has not enough mana, he's waiting for close combat");
+			}
+			else{
+				zombie.takeDamage(hero_damage);
+				System.out.println("Zombie took " + hero_damage + " damage.");
+			}
+			if (!zombie.isAlive()){
+				System.out.println("The enemy is dead");
+				return;
+			}
+		}
+	}
+}

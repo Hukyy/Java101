@@ -1,0 +1,24 @@
+package zombies;
+
+public class Axe {
+	int damage;
+	int durability;
+	int maxDurability;
+	
+	public Axe(int damage, int durability){
+		this.damage = damage;
+		this.durability = durability;
+		this.maxDurability=durability;
+	}
+	
+	public int hit(){
+		if (durability>=maxDurability/2){
+			durability--;
+			return damage;
+		}
+		if (damage>1){
+			damage--;
+		}
+		return damage;
+	}
+}

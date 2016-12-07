@@ -1,0 +1,10 @@
+package zombies;
+
+public class Axe extends ToSmash{
+
+	public Axe(int damage, int durability) {
+		super(10, 50);
+		// TODO Auto-generated constructor stub
+	}
+
+}

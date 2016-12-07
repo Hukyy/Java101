@@ -1,0 +1,30 @@
+package zombies;
+
+public class Main {
+
+	public static void main(String[] args) {
+//		Hero Hukyy = new Hero("Hukyy","noob",1500,300,2);
+//		System.out.println(Hukyy.getHealth());
+//		Hukyy.takeDamage(50);
+//		System.out.println(Hukyy.getHealth());
+//		Hukyy.takeHealing(800);
+//		System.out.println(Hukyy.getHealth());
+//		//System.out.println(Hukyy.knownAs());
+//		
+//		Weapon bradva = new Weapon("Axe",30);
+//		Hukyy.equip(bradva);
+//		Hukyy.takeDamage(Hukyy.attack("weapon"));
+//		System.out.println(Hukyy.getHealth());
+		String[] map = { "asd","qwert","zxcv", "asdf"};
+		int len = map.length;
+		char[][] mapa = new char[len][];
+		for (int i=0;i<len;i++){
+			mapa[i] = map[i].toCharArray();
+		}
+		System.out.println(mapa[1][5]);
+		Dungeon dung = new Dungeon(map);
+		dung.printMap();
+
+	}
+
+}

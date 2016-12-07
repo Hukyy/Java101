@@ -1,0 +1,51 @@
+package zombies;
+
+public abstract class Character {
+	private int health;
+	private int maxHealth;
+	protected int mana;
+	protected int maxMana;
+	protected Weapon weapon;
+	protected Spell spell;
+	
+	public Character(int health, int mana){
+		this.health=health;
+		this.mana=mana;
+		this.maxHealth=health;
+		this.maxMana=mana;
+	}
+	public int getHealth(){
+		return health;
+	}
+	public int getMana(){
+		return mana;
+	}
+	public boolean isAlive(){
+		return health>0;
+	}
+	public boolean canCast(){
+		return spell!= null && spell.getManaCost()<mana;
+	}
+	
+	public void takeDamage(int damagePoints){
+		health-= damagePoints;
+		health = Math.max(0, health);
+	}
+	public void takeHealing(int healingPoints){
+		health+=healingPoints;
+		health = Math.min(maxHealth, health);
+	}
+	public void takeMana(int manaPoints){
+		//TODO: moving mana regen
+		mana += manaPoints;
+		mana = Math.min(maxMana, mana);
+	}
+	public void equip(Weapon weapon){
+		this.weapon = new Weapon(weapon);
+	}
+	public void learn(Spell spell){
+		this.spell = new Spell(spell);
+	}
+	public abstract int attack(String how);
+	
+}

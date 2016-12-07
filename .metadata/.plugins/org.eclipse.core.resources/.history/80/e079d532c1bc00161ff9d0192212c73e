@@ -1,0 +1,72 @@
+package zombies;
+
+public class Fight {
+	private Hero hero;
+	private Zombie zombie;
+	private Position heroPosition;
+	private Position zombiePosition;
+	
+	public Fight(Hero h, Zombie z){
+		hero=h;
+		zombie=z;
+	}
+	
+	public void getPositions(Position hero, Position zombie){
+		heroPosition= hero;
+		zombiePosition = zombie;
+	}
+	
+	public void le_fight(){
+		int zombieX = heroPosition.getX() - zombiePosition.getX();
+		int zombieY = heroPosition.getY() - zombiePosition.getY();
+		while (zombieX != 0 && zombieY != 0 && zombie.isAlive()){
+			System.out.println("Our hero (" + hero.getHealth() + " health, " + hero.getMana() + " mana) is attacking the enemy ("  + zombie.getHealth() + " health, "  + zombie.getMana() + " mana).");
+			int hero_damage = hero.attack("magic");
+			if (hero_damage == 0){
+				System.out.println("hero has not enough mana, he's waiting for close combat");
+			}
+			else{
+				zombie.takeDamage(hero_damage);
+				System.out.println("Hero casts " + hero.getSpell().getName() + " .Zombie took " + hero_damage + " damage.");
+			}
+			if (!zombie.isAlive()){
+				System.out.println("The enemy is dead");
+				return;
+			}
+			if (zombieX>0){
+				zombieX--;
+				System.out.println("Enemy moves one square to the left in order to get to the hero. ");
+			}
+			if (zombieX<0){
+				zombieX++;
+				System.out.println("Enemy moves one square to the left in order to get to the hero. ");
+			}
+			if (zombieY>0){
+				zombieY--;
+				System.out.println("Enemy moves one square down in order to get to the hero. ");
+			}
+			if (zombieY<0){
+				zombieY--;
+				System.out.println("Enemy moves one square up in order to get to the hero. ");
+			}
+		}
+		while (zombie.isAlive() || hero.isAlive()){
+			System.out.println("Our hero (" + hero.getHealth() + " health, " + hero.getMana() + " mana) is attacking the enemy ("  + zombie.getHealth() + " health, "  + zombie.getMana() + " mana).");
+			int spell_damage = hero.attack("magic");
+			int melee_damage = hero.attack("weapon");
+			if (spell_damage > melee_damage){
+				zombie.takeDamage(spell_damage);
+				System.out.println("Hero casts " + hero.getSpell().getName() + " .Zombie took " + spell_damage + " damage.");
+			}
+			else {
+				zombie.takeDamage(melee_damage);
+				System.out.println("Hero attaks with " + hero.getWeapon().getName() + " .Zombie took " + melee_damage + " damage.");
+			}
+		}
+		if (!zombie.isAlive()){
+			System.out.println("Zombie is dead!");
+		} else{
+			System.out.println("Hero is dead!");
+		}
+	}
+}

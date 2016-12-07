@@ -1,0 +1,10 @@
+package zombies;
+
+public class Sword extends ToSmash {
+
+	public Sword(int damage, int durability) {
+		super(50, 10);
+		// TODO Auto-generated constructor stub
+	}
+
+}

@@ -11,29 +11,53 @@ public class Main {
 //		System.out.println(Hukyy.getHealth());
 //		//System.out.println(Hukyy.knownAs());
 //		
-//		Weapon bradva = new Weapon("Axe",30);
-//		Hukyy.equip(bradva);
+		Weapon bradva = new Weapon("Axe",30);
+		Hukyy.equip(bradva);
 //		Hukyy.takeDamage(Hukyy.attack("weapon"));
 //		System.out.println(Hukyy.getHealth());
 		String[] map = { "S.##.....T","#T##..###.","#.###E###E", "#.E...###.", "###T#####G"};
-//		Spell spell = new Spell("fireBall",20,1,1);
-//		Hukyy.learn(spell);
-//		System.out.println(Hukyy.getSpell());
+		Spell spell = new Spell("fireBall",50,100,1);
+		Hukyy.learn(spell);
+		System.out.println(Hukyy.getSpell());
 	
 		
 		Dungeon dung = new Dungeon(map);
 		dung.printMap();
 		System.out.println(dung.spawn(Hukyy));
-		System.out.println();
-		dung.printMap();
+//		System.out.println();
+//		dung.printMap();
 		dung.moveHero("right");
-		System.out.println();
-		dung.printMap();
-		System.out.println();
+//		System.out.println();
+//		dung.printMap();
+//		System.out.println();
 		dung.moveHero("down");
+		dung.moveHero("down");
+		dung.moveHero("down");
+		dung.moveHero("right");
+		dung.moveHero("right"); 
+		dung.moveHero("down");
+		dung.moveHero("up");
+		dung.moveHero("right"); 
+		dung.moveHero("right");
 		dung.printMap();
-		System.out.println(Hukyy.getWeapon());
-		System.out.println(Hukyy.getSpell());
+		dung.moveHero("up"); 
+		dung.printMap();
+		dung.moveHero("up"); 
+		dung.moveHero("up");
+		dung.moveHero("right");
+		dung.moveHero("right"); 
+		dung.moveHero("right"); 
+		dung.moveHero("right");
+		dung.moveHero("down");
+		dung.moveHero("down"); 
+		dung.printMap();
+		dung.moveHero("down");
+		dung.moveHero("down");
+//		
+		//dung.heroAttack("magic");
+		dung.printMap();
+//		System.out.println(Hukyy.getWeapon());
+//		System.out.println(Hukyy.getSpell());
 		
 		
 	

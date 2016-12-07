@@ -1,0 +1,14 @@
+package zombies;
+
+public class Revolver extends ToShoot {
+
+	public Revolver(int damage, int durability) {
+		super(15, 6);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public String toString(){
+		return "Revolver " + damage + " Durability " + durability;
+	}
+
+}

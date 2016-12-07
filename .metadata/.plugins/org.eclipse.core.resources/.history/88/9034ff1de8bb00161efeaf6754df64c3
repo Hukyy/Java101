@@ -1,0 +1,11 @@
+package zombies;
+
+public class Zombie extends Character {
+	private int damage;
+
+	public Zombie(int health, int mana) {
+		super(health, mana);
+		this.damage = damage;
+	}
+
+}

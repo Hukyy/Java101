@@ -1,0 +1,98 @@
+package zombies;
+import java.util.Random;
+
+public class Dungeon {
+	private char[][] map;
+	private Hero hero;
+	private Hero orig_hero;
+	private int hero_x;
+	private int hero_y;
+	
+	private boolean isObstacle(int x,int y){
+		return map[x][y] == '#';
+	}
+	private boolean isWalkable(int x,int y){
+		return map[x][y] != '#';
+	}
+	private boolean isInside(int x,int y){
+		int height = map.length;
+		if (x<0 || x>height-1) 
+			return false;
+		
+		int width = map[x].length;
+		if (y<0 || y>width-1)
+			return false;
+		
+		return true;
+	}
+	private boolean revive(){
+		if (!hero.isAlive()){
+			map[hero_x][hero_y] = '.';
+			return spawn(orig_hero);			
+		}
+		return true;
+	}
+	private void getTreasure(){
+		Treasure treasure = new Treasure();
+		Random random = new Random();
+		int treasureKind = random.nextInt(3);
+		switch (treasureKind){
+			case(0): hero.takeHealing(treasure.getHealthPot());
+			case(1): hero.takeMana(treasure.getManaPot());
+		}
+		
+	}
+	
+	public Dungeon(String[] map){
+		int len = map.length;
+		//int len1 =map[1].length();
+		this.map = new char[len][];
+		for (int i=0;i<len;i++){
+			this.map[i] = map[i].toCharArray();
+		}
+	}
+	
+	public void printMap(){
+		int len = map.length;
+		for (int i=0;i<len;i++){
+			System.out.println(this.map[i]);
+		}
+	}
+	
+	public boolean spawn(Hero hero){
+		int i, j;
+		int height = map.length;
+		for (i=0;i< height;i++){
+			int width = map[i].length;
+			for (j=0;j<width;j++){
+				if (map[i][j] == 'S'){
+					map[i][j] = 'H';
+					if (this.hero == null){
+						this.orig_hero = hero;
+					}
+					this.hero = this.orig_hero;
+					this.hero_x = i;
+					this.hero_y = j;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public void moveHero(String direction){
+		int x= hero_x;
+		int y= hero_y;
+		switch(direction){
+			case("up"): y--; break;
+			case("down"): y++; break;
+			case("left"): x--; break;
+			case("right"): x++; break;
+		}
+		if (isInside(x,y) && isWalkable(x, y)){
+			switch(map[x][y]){
+			case('T'): getTreasure(); break;
+			}
+		}
+	}
+}

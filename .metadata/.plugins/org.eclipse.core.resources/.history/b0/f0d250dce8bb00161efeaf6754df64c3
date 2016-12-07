@@ -1,0 +1,14 @@
+package zombies;
+
+public class Spell {
+	private String name;
+	private int damage;
+	private int manaCost;
+	private int castRange;
+	Spell(String name, int damage, int manaCost, int castRange){
+		this.name=name;
+		this.damage =damage;
+		this.manaCost=manaCost;
+		this.castRange=castRange;
+	}
+}

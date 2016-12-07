@@ -1,0 +1,39 @@
+package zombies;
+
+public class Hero {
+	String name;
+	String title;
+	int health;
+	int maxHealth;
+	int mana;
+	int manaRegen;
+	
+	
+	public Hero(String Name,String Title, int Health, int Mana, int ManaRegen){
+		this.name=Name;
+		this.title=Title;
+		this.health=Health;
+		this.mana=Mana;
+		this.manaRegen=ManaRegen;
+		this.maxHealth = Health;
+	}
+	
+	public String knownAs(){
+		return name + " the " + title;
+	}
+	
+	public int getHealth(){
+		return health;
+	}
+	public int getMana(){
+		return mana;
+	}
+	public boolean isAlive(){
+		return health>0;
+	}
+	
+	public void takeDamage(int damagePoints){
+		health-= damagePoints;
+		health = Math.max(0, health);
+	}
+}

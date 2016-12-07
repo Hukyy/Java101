@@ -1,4 +1,5 @@
 package zombies;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Dungeon {
@@ -8,6 +9,7 @@ public class Dungeon {
 	private int hero_x;
 	private int hero_y;
 	private char lastFromThePath = '.';
+	private HashMap<Position, Zombie> enemies = new HashMap<>();
 	
 	private boolean isObstacle(int x,int y){
 		return map[x][y] == '#';
@@ -36,7 +38,7 @@ public class Dungeon {
 	private void getTreasure(){
 		Treasure treasure = new Treasure();
 		Random random = new Random();
-		int treasureKind = 3;//random.nextInt(3);
+		int treasureKind = random.nextInt(3);
 		System.out.print("Found trasure: ");
 		switch (treasureKind){
 			case(0): {
@@ -69,6 +71,61 @@ public class Dungeon {
 		
 	}
 	
+	private void setEnemies(){
+		Random random = new Random();
+		int height = map.length;
+		for (int i=0;i<height; i++){
+			int width = map[i].length;
+			for (int j=0;j<width;j++){
+				if (map[i][j] == 'E'){
+					int health = random.nextInt(501);
+					int mana = random.nextInt(501);
+					int damage = random.nextInt(101);
+					System.out.println("hp "+ health + " mana " + mana + " damage" + damage);
+					Position pos = new Position(i,j);
+					Zombie zombie = new Zombie(health,mana,damage);
+					enemies.put(pos, zombie);
+					System.out.println(enemies.get(pos));
+				}
+			}
+		}
+	}
+	
+	private Position findTarget(){
+		int new_x = hero_x;
+		int new_y = hero_y;
+		int range = hero.getSpell().getCastRange();
+		for (int i=1;i<=range;i++){
+			if (!isInside(new_x, new_y+i) || !isWalkable(new_x, new_y+i)){
+				break;
+			}
+			if (map[new_x][new_y+i] == 'E')
+				return new Position(new_x,new_y+i);
+		}
+		for (int i=1;i<=range;i++){
+			if (!isInside(new_x, new_y-i) || isWalkable(new_x, new_y-i)){
+				break;
+			}
+			if (map[new_x][new_y-i] == 'E')
+				return new Position(new_x,new_y-i);
+		}
+		for (int i=1;i<=range;i++){
+			if (!isInside(new_x+i, new_y) || isWalkable(new_x+i, new_y)){
+				break;
+			}
+			if (map[new_x+i][new_y] == 'E')
+				return new Position(new_x+i,new_y);
+		}
+		for (int i=1;i<=range;i++){
+			if (!isInside(new_x-i, new_y) ||isWalkable(new_x-i, new_y)){
+				break;
+			}
+			if (map[new_x-i][new_y] == 'E')
+				return new Position(new_x-i,new_y);
+		}
+		return null;
+	}
+	
 	public Dungeon(String[] map){
 		int len = map.length;
 		//int len1 =map[1].length();
@@ -76,6 +133,8 @@ public class Dungeon {
 		for (int i=0;i<len;i++){
 			this.map[i] = map[i].toCharArray();
 		}
+		setEnemies();
+		
 	}
 	
 	public void printMap(){
@@ -109,6 +168,8 @@ public class Dungeon {
 	public void moveHero(String direction){
 		int x= hero_x;
 		int y= hero_y;
+		int current_x = hero_x;
+		int current_y = hero_y;
 		switch(direction){
 			case("up"): x--; break;
 			case("down"): x++; break;
@@ -116,18 +177,60 @@ public class Dungeon {
 			case("right"): y++; break;
 		}
 		if (isInside(x,y) && isWalkable(x, y)){
+			hero_x = x;
+			hero_y = y;
 			switch(map[x][y]){
 			case('T'): getTreasure(); break;
+			case('E'): heroAttack("weapon");
 			}
 			hero.takeMana(hero.getManaRegen());
 			if (lastFromThePath=='S'){
-				map[hero_x][hero_y] = 'S';
+				map[current_x][current_y] = 'S';
 			} else {
-				map[hero_x][hero_y] ='.';
+				map[current_x][current_y] ='.';
 			}
-			hero_x = x;
-			hero_y = y;
+//			hero_x = x;
+//			hero_y = y;
 			map[hero_x][hero_y] = 'H';
+		}
+	}
+	private void attack_help(Position position, Zombie zombi){
+		Fight fight = new Fight(hero,zombi);
+		fight.getPositions(new Position(hero_x,hero_y), position);
+		fight.le_fight();
+		if (!enemies.get(position).isAlive()){
+			enemies.remove(position);
+			map[position.getX()][position.getY()]='.';
+		}
+		else if (!revive()){
+			System.out.println("Game over");
+		}
+	}
+	public void heroAttack(String by){
+		if (by.equals("magic")){
+			Position position = findTarget();
+			if (position != null){
+				Zombie zombi = enemies.get(position);
+				attack_help(position,zombi);
+//				//System.out.println(zombi);
+//				Fight fight = new Fight(hero,zombi);
+//				fight.getPositions(new Position(hero_x,hero_y), position);
+//				fight.le_fight();
+//				if (!enemies.get(position).isAlive()){
+//					enemies.remove(position);
+//					map[position.getX()][position.getY()]='.';
+//				}
+//				else if (!revive()){
+//					System.out.println("Game over");
+//				}
+				
+			} else {
+				System.out.println("There are no enemies in range.");
+			}
+		} else if (by.equals("weapon")){
+			Position position = new Position(hero_x,hero_y);
+			Zombie zombi = enemies.get(position);
+			attack_help(position,zombi);
 		}
 	}
 }

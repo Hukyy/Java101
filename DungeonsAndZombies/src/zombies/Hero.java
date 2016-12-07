@@ -21,7 +21,7 @@ public class Hero extends Character {
 		return name + " the " + title;
 	}
 	public int attack(String how){
-		int result = 2;
+		int result = 0;
 		if (how.equalsIgnoreCase("weapon") && weapon != null){
 			result = weapon.getDamage();
 		}

@@ -1,6 +1,12 @@
 package zombies;
 
 public class Zombie extends Character {
+	@Override
+	public String toString() {
+		return "Zombie [damage=" + damage + ", mana=" + mana + ", maxMana=" + maxMana + ", weapon=" + weapon
+				+ ", spell=" + spell + "]";
+	}
+
 	private int damage;
 
 	public Zombie(int health, int mana, int damage) {

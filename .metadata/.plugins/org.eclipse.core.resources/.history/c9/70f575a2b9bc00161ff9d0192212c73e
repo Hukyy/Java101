@@ -1,0 +1,22 @@
+package zombies;
+
+public class Fight {
+	private Hero hero;
+	private Zombie zombie;
+	private Position heroPosition;
+	private Position zombiePosition;
+	
+	public Fight(Hero h, Zombie z){
+		hero=h;
+		zombie=z;
+	}
+	
+	public void getPositions(Position hero, Position zombie){
+		heroPosition= hero;
+		zombiePosition = zombie;
+	}
+	
+	public void le_fight(){
+		
+	}
+}

@@ -1,0 +1,9 @@
+package zombies;
+
+public class ToShoot extends Weapon{
+
+	public ToShoot(int damage, int durability) {
+		super(damage, durability);
+	}
+
+}

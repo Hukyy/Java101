@@ -1,0 +1,15 @@
+package zombies;
+
+public class Fight {
+	private Hero hero;
+	private Zombie zombie;
+	
+	public Fight(Hero h, Zombie z){
+		hero=h;
+		zombie=z;
+	}
+	
+	public void le_fight(){
+		
+	}
+}

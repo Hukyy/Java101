@@ -36,38 +36,18 @@ public class Dungeon {
 		return true;
 	}
 	private void getTreasure(){
-		Treasure treasure = new Treasure();
+		Treasure treasure = null;
 		Random random = new Random();
-		int treasureKind = random.nextInt(3);
-		System.out.print("Found trasure: ");
+		int treasureKind = random.nextInt(4);
+		System.out.print("Found a trasure: ");
 		switch (treasureKind){
-			case(0): {
-				int pot = treasure.getHealthPot();
-				System.out.println("healing pot " +pot);
-				hero.takeHealing(pot); 
-			}break;
-			case(1):{
-				int pot = treasure.getManaPot();
-				System.out.println("mana pot " + pot);
-				hero.takeMana(pot); 
-			}break;
-			case(2): {
-				Weapon weapon = treasure.getWeapon();
-				System.out.println("weapon " + weapon);
-				if(hero.getWeapon() == null || hero.getWeapon().getDamage()<weapon.getDamage()){
-					hero.equip(weapon);
-					orig_hero.equip(weapon);
-				}
-			}break;
-			case(3): {
-				Spell spell = treasure.getSpell();
-				System.out.println("spell" + spell);
-				if (hero.getSpell()==null || hero.getSpell().getDamage()<spell.getDamage()){
-					hero.learn(spell);
-					orig_hero.learn(spell);
-				}
-			}break;
+			case(0): treasure = Weapon.loot(); break;
+			case(1): treasure = Spell.loot(); break;
+			case(2): treasure = HealthPotion.loot(); break;
+			case(3): treasure = ManaPotion.loot(); break;
 		}
+		treasure.use(hero);
+		treasure.use(orig_hero);
 		
 	}
 	

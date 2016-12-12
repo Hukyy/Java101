@@ -14,6 +14,16 @@ public abstract class Character {
 		this.maxHealth=health;
 		this.maxMana=mana;
 	}
+	
+	public Character(Character other){
+		this.health=other.health;
+		this.maxHealth=other.maxHealth;
+		this.mana=other.mana;
+		this.maxMana=other.maxMana;
+		this.weapon=other.weapon;
+		this.spell=other.spell;
+	}
+	
 	public int getHealth(){
 		return health;
 	}

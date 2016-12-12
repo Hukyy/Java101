@@ -10,6 +10,8 @@ public class Dungeon {
 	private int hero_y;
 	private char lastFromThePath = '.';
 	private HashMap<Position, Zombie> enemies = new HashMap<>();
+	private Position lastMetZombie;
+	private boolean stillRunning = true;
 	
 	private boolean isObstacle(int x,int y){
 		return map[x][y] == '#';
@@ -59,11 +61,14 @@ public class Dungeon {
 			for (int j=0;j<width;j++){
 				if (map[i][j] == 'E'){
 					int health = random.nextInt(501);
-					int mana = random.nextInt(501);
+					int mana = random.nextInt(151);
 					int damage = random.nextInt(101);
-					System.out.println("hp "+ health + " mana " + mana + " damage" + damage);
 					Position pos = new Position(i,j);
 					Zombie zombie = new Zombie(health,mana,damage);
+					
+					Treasure spell = Spell.loot();
+					spell.use(zombie);
+					//System.out.println(zombie);
 					enemies.put(pos, zombie);
 					System.out.println(enemies.get(pos));
 				}
@@ -133,19 +138,30 @@ public class Dungeon {
 				if (map[i][j] == 'S'){
 					map[i][j] = 'H';
 					if (this.hero == null){
-						this.orig_hero = hero;
+						this.orig_hero = new Hero(hero);
+					} else {
+						map[hero_x][hero_y]='.';
+						map[lastMetZombie.getX()][lastMetZombie.getY()] = 'E';
 					}
-					this.hero = this.orig_hero;
+					
+					this.hero = new Hero(orig_hero);
 					this.hero_x = i;
 					this.hero_y = j;
+					lastFromThePath='.';
 					return true;
 				}
 			}
 		}
+		map[hero_x][hero_y] = 'E';
+		System.out.println("Game over");
+		stillRunning = false;
 		return false;
 	}
 	
 	public void moveHero(String direction){
+		if (!stillRunning){
+			return;
+		}
 		int x= hero_x;
 		int y= hero_y;
 		int current_x = hero_x;
@@ -159,56 +175,62 @@ public class Dungeon {
 		if (isInside(x,y) && isWalkable(x, y)){
 			hero_x = x;
 			hero_y = y;
-			switch(map[x][y]){
-			case('T'): getTreasure(); break;
-			case('E'): heroAttack("weapon");
-			}
-			hero.takeMana(hero.getManaRegen());
 			if (lastFromThePath=='S'){
 				map[current_x][current_y] = 'S';
 			} else {
 				map[current_x][current_y] ='.';
 			}
+			switch(map[x][y]){
+			case('T'): getTreasure(); break;
+			case('E'): heroAttack("weapon"); break;
+			case('S'): lastFromThePath = 'S'; break;
+			case('.'): lastFromThePath = '.'; break;
+			}
+			hero.takeMana(hero.getManaRegen());
+			
 //			hero_x = x;
 //			hero_y = y;
-			map[hero_x][hero_y] = 'H';
+			if (hero.isAlive()){
+				map[hero_x][hero_y] = 'H';
+			}
 		}
 	}
 	private void attack_help(Position position, Zombie zombi){
+		if (!stillRunning){
+			return;
+		}
 		Fight fight = new Fight(hero,zombi);
-		fight.getPositions(new Position(hero_x,hero_y), position);
-		fight.le_fight();
-		if (!enemies.get(position).isAlive()){
-			enemies.remove(position);
-			map[position.getX()][position.getY()]='.';
+		Position oldPos = new Position(position);
+		fight.setPositions(new Position(hero_x,hero_y), position);
+		Position coords = fight.le_fight();
+		if (!enemies.get(oldPos).isAlive()){
+			enemies.remove(oldPos);
+			map[oldPos.getX()][oldPos.getY()]='.';
+			map[hero_x][hero_y] = '.';
+			hero_x = coords.getX();
+			hero_y = coords.getY();
+			map[hero_x][hero_y] ='H';
 		}
 		else if (!revive()){
 			System.out.println("Game over");
 		}
 	}
 	public void heroAttack(String by){
+		if (!stillRunning){
+			return;
+		}
 		if (by.equals("magic")){
 			Position position = findTarget();
 			if (position != null){
+				lastMetZombie = new Position(position);
 				Zombie zombi = enemies.get(position);
 				attack_help(position,zombi);
-//				//System.out.println(zombi);
-//				Fight fight = new Fight(hero,zombi);
-//				fight.getPositions(new Position(hero_x,hero_y), position);
-//				fight.le_fight();
-//				if (!enemies.get(position).isAlive()){
-//					enemies.remove(position);
-//					map[position.getX()][position.getY()]='.';
-//				}
-//				else if (!revive()){
-//					System.out.println("Game over");
-//				}
-				
 			} else {
 				System.out.println("There are no enemies in range.");
 			}
 		} else if (by.equals("weapon")){
 			Position position = new Position(hero_x,hero_y);
+			lastMetZombie = new Position(position);
 			Zombie zombi = enemies.get(position);
 			attack_help(position,zombi);
 		}

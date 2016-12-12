@@ -14,7 +14,13 @@ public class Hero extends Character {
 		this.title=Title;
 		this.manaRegen=ManaRegen;
 		this.weapon = new Weapon("staff", 2);
+	}
 	
+	public Hero(Hero other){
+		super(other);
+		this.name=other.name;
+		this.title=other.title;
+		this.manaRegen=other.manaRegen;
 	}
 	
 	public String knownAs(){

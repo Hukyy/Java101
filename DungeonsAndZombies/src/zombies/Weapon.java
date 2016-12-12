@@ -27,11 +27,11 @@ public class Weapon extends Treasure {
 	}
 
 	@Override
-	public void use(Hero hero) {
+	public void use(Character character) {
 		System.out.print("Weapon: ");
 		System.out.println(this);
-		if (hero.getWeapon() == null || this.damage>hero.getWeapon().getDamage()){
-			hero.equip(this);
+		if (character.getWeapon() == null || this.damage>character.getWeapon().getDamage()){
+			character.equip(this);
 		}
 		
 	}

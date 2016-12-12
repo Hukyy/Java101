@@ -4,9 +4,13 @@ public class Position {
 	private int x;
 	private int y;
 	
-	Position(int x,int y){
+	public Position(int x,int y){
 		this.x=x;
 		this.y=y;
+	}
+	public Position(Position other){
+		this.x=other.x;
+		this.y=other.y;
 	}
 
 	public int getX() {
@@ -19,6 +23,15 @@ public class Position {
 
 	public void setX(int x) {
 		this.x = x;
+	}
+	
+	public void move(String direction){
+		switch (direction){
+			case("left"): y--; break;
+			case("right"): y++; break;
+			case("up"): x--; break;
+			case("down"): x++; break;
+		}
 	}
 
 	@Override

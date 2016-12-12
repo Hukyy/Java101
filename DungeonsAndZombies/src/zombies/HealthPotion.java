@@ -12,9 +12,9 @@ public class HealthPotion extends Treasure {
 		this.amount=other.amount;
 	}
 	@Override
-	public void use(Hero hero) {
+	public void use(Character character) {
 		System.out.println("Healing potion " + this.amount);
-		hero.takeHealing(this.amount);
+		character.takeHealing(this.amount);
 	}
 
 	

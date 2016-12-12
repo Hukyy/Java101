@@ -47,11 +47,11 @@ public class Spell extends Treasure {
 		return name + " Damage: " + damage + " manaCost: " + manaCost + " castRange: " + castRange;
 	}
 	@Override
-	public void use(Hero hero) {
+	public void use(Character character) {
 		System.out.print("Spell:");
 		System.out.println(this);
-		if (hero.getSpell() == null || this.damage>hero.getSpell().getDamage()){
-			hero.learn(this);
+		if (character.getSpell() == null || this.damage>character.getSpell().getDamage()){
+			character.learn(this);
 		}
 	}
 	
@@ -68,8 +68,8 @@ public class Spell extends Treasure {
 						"Corruption of Control"};
 		Random random = new Random();
 		String name = names[random.nextInt(names.length)];
-		int damage = random.nextInt(200) + 50; //damage range [50,250)
-		int manaNeed = random.nextInt(80)+20; // mana range [20,100)
+		int damage = random.nextInt(100) + 1500; //damage range [50,150)
+		int manaNeed = random.nextInt(10)+20; // mana range [20,100)
 		int spellRange = random.nextInt(3) + 1;
 		
 		return new Spell(name,damage,manaNeed,spellRange);

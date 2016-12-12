@@ -12,9 +12,9 @@ public class ManaPotion extends Treasure {
 		this.amount=other.amount;
 	}
 	@Override
-	public void use(Hero hero) {
+	public void use(Character character) {
 		System.out.println("Mana potion "+ this.amount);
-		hero.takeMana(this.amount);
+		character.takeMana(this.amount);
 	}
 
 	
